@@ -66,7 +66,10 @@ div {
 }
 
 .detail {
-  background: rgb(245, 245, 245);
+  background: white;
+  border-radius: 25px;
+  padding: 2rem;
+  line-height: 1.5rem;
 }
 
 .collapsed {

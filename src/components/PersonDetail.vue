@@ -19,7 +19,7 @@
     Show Bank Data<br />
   </div>
 
-    <detail-section header="Basic data">
+    <detail-section header="Basic data" :isExpanded="true">
       <template v-slot:default>
         <div>
           <img :src="person.avatar" alt="avatar" width="75" /><br />
