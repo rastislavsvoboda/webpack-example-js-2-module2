@@ -1,8 +1,8 @@
 <template>
   <div @click="toggleExpand" class="section-button">
-    <h3 :class="{ 'collapsed-button': !isExpandedNow }">{{ header }}</h3>
+    <h3 :class="{ 'collapsed-button': !isExpanded }">{{ header }}</h3>
   </div>
-  <div :class="{ collapsed: !isExpandedNow }">
+  <div :class="{ collapsed: !isExpanded }">
     <div v-if="isLoading">Loading...</div>
     <div v-if="!isLoading" class="detail">
       <slot></slot>
@@ -13,12 +13,12 @@
 <script>
 export default {
   name: "DetailSection",
-  data() {
-    return {
-      isExpandedNow: this.isExpanded,
-    };
-  },
+
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     header: {
       type: String,
       required: true,
@@ -34,9 +34,10 @@ export default {
       default: false,
     },
   },
+  emits: ["toggle:expand"],
   methods: {
     toggleExpand() {
-      this.isExpandedNow = !this.isExpandedNow;
+      this.$emit("toggle:expand", this.id);
     },
   },
 };
@@ -44,7 +45,7 @@ export default {
 
 <style lang="scss" scoped>
 h3 {
-//   padding: 0 1em;
+  //   padding: 0 1em;
   text-align: left;
 }
 

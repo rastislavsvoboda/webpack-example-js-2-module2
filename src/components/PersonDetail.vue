@@ -19,17 +19,25 @@
     Show Bank Data<br />
   </div>
 
-  <detail-section header="Basic data" :isExpanded="true">
+  <detail-section
+    header="Basic data"
+    :isExpanded="true"
+    @toggle:expand="toggleExpand"
+    id="section-basic"
+  >
     <template v-slot:default>
       <div>
         <img :src="person.avatar" alt="avatar" width="75" /><br />
-        <span class="a-text-bold">First Name  : </span>{{ person.first_name }}<br />
-        <span class="a-text-bold">Last Name : </span>{{ person.last_name }}<br />
+        <span class="a-text-bold">First Name : </span>{{ person.first_name
+        }}<br />
+        <span class="a-text-bold">Last Name : </span>{{ person.last_name
+        }}<br />
         <span class="a-text-bold">DOB : </span>{{ person.dob }}<br />
         <span class="a-text-bold">email : </span>{{ person.email }}<br />
         <span class="a-text-bold">Gender : </span>{{ person.gender }}<br />
         <span class="a-text-bold">SSN : </span>{{ person.ssn }}<br />
-        <span class="a-text-bold">Address : </span>{{ person.street_address }}<br />
+        <span class="a-text-bold">Address : </span>{{ person.street_address
+        }}<br />
         <span class="a-text-bold">City : </span>{{ person.city }} <br />
         <span class="a-text-bold">State : </span>{{ person.state }} <br />
         <span class="a-text-bold">Country : </span>{{ person.country }}
@@ -37,23 +45,41 @@
     </template>
   </detail-section>
 
-  <detail-section v-if="healthVisible" :isLoading="false" header="Health data">
+  <detail-section
+    v-if="healthVisible"
+    :isLoading="false"
+    header="Health data"
+    :isExpanded="healthExpanded"
+    @toggle:expand="toggleExpand"
+    id="section-health"
+  >
     <template v-slot:default>
       <div>
         <span class="a-text-bold">NDC Code : </span>{{ health.ndc_code }}<br />
         <span class="a-text-bold">Name : </span>{{ health.drug_name }}<br />
-        <span class="a-text-bold">Company : </span>{{ health.drug_company }}<br />
-        <span class="a-text-bold">PROC Code : </span>{{ health.proc_code }}<br />
+        <span class="a-text-bold">Company : </span>{{ health.drug_company
+        }}<br />
+        <span class="a-text-bold">PROC Code : </span>{{ health.proc_code
+        }}<br />
         <span class="a-text-bold">Description : </span>{{ health.desc }}
       </div>
     </template>
   </detail-section>
 
-  <detail-section v-if="bankVisible" :isLoading="false" header="Bank data">
+  <detail-section
+    v-if="bankVisible"
+    :isLoading="false"
+    header="Bank data"
+    :isExpanded="bankExpanded"
+    @toggle:expand="toggleExpand"
+    id="section-bank"
+  >
     <template v-slot:default>
       <div>
-        <span class="a-text-bold">Credit Card : </span>{{ bank.credit_card }}<br />
-        <span class="a-text-bold">Credit Card Type : </span>{{ bank.credit_card_type }}<br />
+        <span class="a-text-bold">Credit Card : </span>{{ bank.credit_card
+        }}<br />
+        <span class="a-text-bold">Credit Card Type : </span
+        >{{ bank.credit_card_type }}<br />
         <span class="a-text-bold">IBAN : </span>{{ bank.iban }}<br />
         <span class="a-text-bold">Money : </span>{{ bank.money }}<br />
       </div>
@@ -78,6 +104,16 @@ export default {
     personId() {
       return this.person.id;
     },
+    basicExpandedGet() {
+      return this.basicExpanded;
+    },
+  },
+  data() {
+    return {
+      // basicExpanded: false,
+      healthExpanded: false,
+      bankExpanded: false,
+    };
   },
   methods: {
     toggleShowHealth() {
@@ -85,6 +121,18 @@ export default {
     },
     toggleShowBank() {
       this.bankVisible = !this.bankVisible;
+    },
+    toggleExpand(id) {
+      console.log("toggleExpand id:", id);
+      if (id === "section-basic") {
+        this.basicExpanded = !this.basicExpanded;
+      }
+      if (id === "section-bank") {
+        this.bankExpanded = !this.bankExpanded;
+      }
+      if (id === "section-health") {
+        this.healthExpanded = !this.healthExpanded;
+      }
     },
     async routeChanged() {
       if (this.$route.name == "PersonDetail") {
@@ -96,10 +144,10 @@ export default {
       this.person = await getPerson(id);
 
       if (this.healthVisible) {
-      this.health = await getHealth(id);
+        this.health = await getHealth(id);
       }
 
-      if (this.bankVisible)  {
+      if (this.bankVisible) {
         this.bank = await getBank(id);
       }
     },
@@ -133,6 +181,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .a-text-bold {
-  font-weight: 700!important;
+  font-weight: 700 !important;
 }
 </style>
