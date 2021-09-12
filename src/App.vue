@@ -4,35 +4,39 @@
     <h1>Module 2</h1>
   </div>
 
-  <router-link to="/persondetail/1">Person Detail 1</router-link>
-  <button @click="prev">PREVIOUS</button>
-  <button @click="next">NEXT</button>
+  <button class="nav-button" @click="first">FIRST</button>
+  <button class="nav-button" @click="prev">PREVIOUS</button>
+  <button class="nav-button" @click="next">NEXT</button>
+  <button class="nav-button" @click="last">LAST</button>
+
   <router-view></router-view>
 </template>
 
 <script>
 export default {
   name: "App",
-  data() {
-    return {
-      id: 1,
-    };
-  },
   components: {},
   methods: {
+    first() {
+      this.gotoPersonDetail(1);
+    },
+    last() {
+      this.gotoPersonDetail(1000);
+    },
     prev() {
-      console.log("prev");
-      if (this.id > 1) {
-        this.id--;
-        // console.log(this.id);
-        this.$router.push({ path: `/persondetail/${this.id}` });
+      let id = parseInt(this.$route.params.id);
+      if (id > 1) {
+        this.gotoPersonDetail(id - 1);
       }
     },
     next() {
-      console.log("next");
-      this.id++;
-      // console.log(this.id);
-      this.$router.push({ path: `/persondetail/${this.id}` });
+      let id = parseInt(this.$route.params.id);
+      if (id < 1000) {
+        this.gotoPersonDetail(id + 1);
+      }
+    },
+    gotoPersonDetail(id) {
+      this.$router.push({ path: `/persondetail/${id}` });
     },
   },
 };
@@ -52,5 +56,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.nav-button {
+  margin: 10px;
+  padding: 10px 30px;
 }
 </style>

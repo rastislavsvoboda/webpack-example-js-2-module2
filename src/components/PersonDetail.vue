@@ -23,16 +23,16 @@
     <template v-slot:default>
       <div>
         <img :src="person.avatar" alt="avatar" width="75" /><br />
-        First Name: {{ person.first_name }}<br />
-        Last Name: {{ person.last_name }}<br />
-        DOB: {{ person.dob }}<br />
-        email: {{ person.email }}<br />
-        Gender: {{ person.gender }}<br />
-        SSN: {{ person.ssn }}<br />
-        Address: {{ person.street_address }}<br />
-        City: {{ person.city }} <br />
-        State: {{ person.state }} <br />
-        Country: {{ person.country }}
+        <span class="a-text-bold">First Name  : </span>{{ person.first_name }}<br />
+        <span class="a-text-bold">Last Name : </span>{{ person.last_name }}<br />
+        <span class="a-text-bold">DOB : </span>{{ person.dob }}<br />
+        <span class="a-text-bold">email : </span>{{ person.email }}<br />
+        <span class="a-text-bold">Gender : </span>{{ person.gender }}<br />
+        <span class="a-text-bold">SSN : </span>{{ person.ssn }}<br />
+        <span class="a-text-bold">Address : </span>{{ person.street_address }}<br />
+        <span class="a-text-bold">City : </span>{{ person.city }} <br />
+        <span class="a-text-bold">State : </span>{{ person.state }} <br />
+        <span class="a-text-bold">Country : </span>{{ person.country }}
       </div>
     </template>
   </detail-section>
@@ -40,11 +40,11 @@
   <detail-section v-if="healthVisible" :isLoading="false" header="Health data">
     <template v-slot:default>
       <div>
-        NDC Code: {{ health.ndc_code }}<br />
-        Name: {{ health.drug_name }}<br />
-        Company: {{ health.drug_company }}<br />
-        PROC Code: {{ health.proc_code }}<br />
-        Description: {{ health.desc }}
+        <span class="a-text-bold">NDC Code : </span>{{ health.ndc_code }}<br />
+        <span class="a-text-bold">Name : </span>{{ health.drug_name }}<br />
+        <span class="a-text-bold">Company : </span>{{ health.drug_company }}<br />
+        <span class="a-text-bold">PROC Code : </span>{{ health.proc_code }}<br />
+        <span class="a-text-bold">Description : </span>{{ health.desc }}
       </div>
     </template>
   </detail-section>
@@ -52,10 +52,10 @@
   <detail-section v-if="bankVisible" :isLoading="false" header="Bank data">
     <template v-slot:default>
       <div>
-        Credit Card: {{ bank.credit_card }}<br />
-        Credit Card Type: {{ bank.credit_card_type }}<br />
-        IBAN: {{ bank.iban }}<br />
-        Money: {{ bank.money }}<br />
+        <span class="a-text-bold">Credit Card : </span>{{ bank.credit_card }}<br />
+        <span class="a-text-bold">Credit Card Type : </span>{{ bank.credit_card_type }}<br />
+        <span class="a-text-bold">IBAN : </span>{{ bank.iban }}<br />
+        <span class="a-text-bold">Money : </span>{{ bank.money }}<br />
       </div>
     </template>
   </detail-section>
@@ -86,26 +86,22 @@ export default {
     toggleShowBank() {
       this.bankVisible = !this.bankVisible;
     },
-    async doSomething() {
-      // console.log("in do something");
-
+    async routeChanged() {
       if (this.$route.name == "PersonDetail") {
-        // console.log(this.$route.params.id);
-
         const id = this.$route.params.id;
         await this.load(id);
-      } else {
-        // console.log("other that PersonDetail page");
       }
-
-      // console.log(this.$route);
     },
     async load(id) {
       this.person = await getPerson(id);
 
-      this.bank = await getBank(id);
-
+      if (this.healthVisible) {
       this.health = await getHealth(id);
+      }
+
+      if (this.bankVisible)  {
+        this.bank = await getBank(id);
+      }
     },
   },
   data() {
@@ -128,11 +124,15 @@ export default {
   },
   watch: {
     $route() {
-      this.doSomething();
+      this.routeChanged();
     },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.a-text-bold {
+  font-weight: 700!important;
+}
+</style>
