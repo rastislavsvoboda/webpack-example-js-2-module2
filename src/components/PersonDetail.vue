@@ -19,23 +19,23 @@
     Show Bank Data<br />
   </div>
 
-    <detail-section header="Basic data" :isExpanded="true">
-      <template v-slot:default>
-        <div>
-          <img :src="person.avatar" alt="avatar" width="75" /><br />
-          First Name: {{ person.first_name }}<br />
-          Last Name: {{ person.last_name }}<br />
-          DOB: {{ person.dob }}<br />
-          email: {{ person.email }}<br />
-          Gender: {{ person.gender }}<br />
-          SSN: {{ person.ssn }}<br />
-          Address: {{ person.street_address }}<br />
-          City: {{ person.city }} <br />
-          State: {{ person.state }} <br />
-          Country: {{ person.country }}
-        </div>
-      </template>
-    </detail-section>
+  <detail-section header="Basic data" :isExpanded="true">
+    <template v-slot:default>
+      <div>
+        <img :src="person.avatar" alt="avatar" width="75" /><br />
+        First Name: {{ person.first_name }}<br />
+        Last Name: {{ person.last_name }}<br />
+        DOB: {{ person.dob }}<br />
+        email: {{ person.email }}<br />
+        Gender: {{ person.gender }}<br />
+        SSN: {{ person.ssn }}<br />
+        Address: {{ person.street_address }}<br />
+        City: {{ person.city }} <br />
+        State: {{ person.state }} <br />
+        Country: {{ person.country }}
+      </div>
+    </template>
+  </detail-section>
 
   <detail-section v-if="healthVisible" :isLoading="false" header="Health data">
     <template v-slot:default>
@@ -62,7 +62,15 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
 import DetailSection from "Components/DetailSection.vue";
+import usePersonService from "Services/person-service.js";
+import useBankService from "Services/bank-service.js";
+import useHealthService from "Services/health-service.js";
+const route = useRoute();
+const { getPerson } = usePersonService();
+const { getBank } = useBankService();
+const { getHealth } = useHealthService();
 
 export default {
   name: "person-detail",
@@ -78,51 +86,53 @@ export default {
     toggleShowBank() {
       this.bankVisible = !this.bankVisible;
     },
+    async doSomething() {
+      // console.log("in do something");
+
+      if (this.$route.name == "PersonDetail") {
+        // console.log(this.$route.params.id);
+
+        const id = this.$route.params.id;
+        await this.load(id);
+      } else {
+        // console.log("other that PersonDetail page");
+      }
+
+      // console.log(this.$route);
+    },
+    async load(id) {
+      this.person = await getPerson(id);
+
+      this.bank = await getBank(id);
+
+      this.health = await getHealth(id);
+    },
   },
   data() {
     return {
-      person: {
-        id: 1,
-        first_name: "Leesa",
-        last_name: "Cokayne",
-        avatar:
-          "https://robohash.org/hicnihilcupiditate.png?size=50x50&set=set1",
-        gender: "Male",
-        ssn: "393-28-1313",
-        city: "Laju Kidul",
-        country: "Indonesia",
-        state: null,
-        street_address: "09 Evergreen Park",
-        dob: "1989-10-13",
-        email: "lcokayne0@google.it",
-      },
-      bank: {
-        id: 1,
-        credit_card: "5610825603858656",
-        credit_card_type: "bankcard",
-        iban: "FO84 9796 8046 0012 69",
-        money: "€9466,75",
-      },
-      health: {
-        id: 1,
-        drug_company: "Teva Select Brands",
-        drug_name: "Adderall",
-        ndc_code: "57844-130",
-        desc: "Other x-ray of epididymis and vas deferens",
-        proc_code: "8795",
-      },
+      person: Object,
+      bank: Object,
+      health: Object,
       healthVisible: true,
-      bankVisible: true,
       healthExpanded: false,
+      bankVisible: true,
       bankExpanded: false,
     };
   },
   components: {
     DetailSection,
   },
+  async mounted() {
+    const id = this.$route.params.id;
+    await this.load(id);
+  },
+  watch: {
+    $route() {
+      this.doSomething();
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>
