@@ -42,6 +42,9 @@
         <span class="a-text-bold">State : </span>{{ person.state }} <br />
         <span class="a-text-bold">Country : </span>{{ person.country }}
       </div>
+      <div>
+        <button @click="gotoEditBasicData">EDIT</button>
+      </div>
     </template>
   </detail-section>
 
@@ -104,9 +107,6 @@ export default {
     personId() {
       return this.person.id;
     },
-    basicExpandedGet() {
-      return this.basicExpanded;
-    },
   },
   data() {
     return {
@@ -151,6 +151,9 @@ export default {
         this.bank = await getBank(id);
       }
     },
+    gotoEditBasicData() {
+      this.$router.push({path: `/person/edit/${this.person.id}`})
+    }
   },
   data() {
     return {
