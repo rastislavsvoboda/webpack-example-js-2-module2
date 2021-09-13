@@ -47,10 +47,11 @@ export default {
 h3 {
   //   padding: 0 1em;
   text-align: left;
+  margin: 30px 5px 10px 5px;
 }
 
 div {
-  padding: 0.5em 1em;
+  padding: 0.5em .5em;
   text-align: left;
 }
 
@@ -69,7 +70,7 @@ div {
 .detail {
   background: white;
   border-radius: 25px;
-  padding: 2rem;
+  padding: 1rem 1rem 1rem 1rem;
   line-height: 1.5rem;
 }
 

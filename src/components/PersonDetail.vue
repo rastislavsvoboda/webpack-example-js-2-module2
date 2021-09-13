@@ -2,21 +2,27 @@
   <div>
     <h1>Person ID: {{ personId }}</h1>
 
-    <input
-      type="checkbox"
-      name="showHealth"
-      v-model="healthVisible"
-      @click="toggleShowHealth"
-    />
-    Show Health Data<br />
+    <div>
+      <input
+        class="checkbox-option"
+        type="checkbox"
+        name="showHealth"
+        v-model="healthVisible"
+        @click="toggleShowHealth"
+      />
+      Show Health Data
+    </div>
 
-    <input
-      type="checkbox"
-      name="showBank"
-      v-model="bankVisible"
-      @click="toggleShowBank"
-    />
-    Show Bank Data<br />
+    <div>
+      <input
+        class="checkbox-option"
+        type="checkbox"
+        name="showBank"
+        v-model="bankVisible"
+        @click="toggleShowBank"
+      />
+      Show Bank Data
+    </div>
   </div>
 
   <detail-section
@@ -27,22 +33,35 @@
   >
     <template v-slot:default>
       <div>
-        <img :src="person.avatar" alt="avatar" width="75" /><br />
-        <span class="a-text-bold">First Name : </span>{{ person.first_name
-        }}<br />
-        <span class="a-text-bold">Last Name : </span>{{ person.last_name
-        }}<br />
-        <span class="a-text-bold">DOB : </span>{{ person.dob }}<br />
-        <span class="a-text-bold">email : </span>{{ person.email }}<br />
-        <span class="a-text-bold">Gender : </span>{{ person.gender }}<br />
-        <span class="a-text-bold">SSN : </span>{{ person.ssn }}<br />
-        <span class="a-text-bold">Address : </span>{{ person.street_address
-        }}<br />
-        <span class="a-text-bold">City : </span>{{ person.city }} <br />
-        <span class="a-text-bold">State : </span>{{ person.state }} <br />
-        <span class="a-text-bold">Country : </span>{{ person.country }}
+        <img :src="person.avatar" alt="avatar" width="75" />
+        <div>
+          <span class="a-text-bold">First Name : </span>{{ person.first_name }}
+        </div>
+        <div>
+          <span class="a-text-bold">Last Name : </span>{{ person.last_name }}
+        </div>
+
+        <div><span class="a-text-bold">DOB : </span>{{ person.dob }}</div>
+
+        <div><span class="a-text-bold">email : </span>{{ person.email }}</div>
+
+        <div><span class="a-text-bold">Gender : </span>{{ person.gender }}</div>
+
+        <div><span class="a-text-bold">SSN : </span>{{ person.ssn }}</div>
+
+        <div>
+          <span class="a-text-bold">Address : </span>{{ person.street_address }}
+        </div>
+
+        <div><span class="a-text-bold">City : </span>{{ person.city }}</div>
+
+        <div><span class="a-text-bold">State : </span>{{ person.state }}</div>
+
+        <div>
+          <span class="a-text-bold">Country : </span>{{ person.country }}
+        </div>
       </div>
-      <div>
+      <div class="actions-container">
         <button @click="gotoEditBasicData" class="btn btn-primary">EDIT</button>
       </div>
     </template>
@@ -58,13 +77,25 @@
   >
     <template v-slot:default>
       <div>
-        <span class="a-text-bold">NDC Code : </span>{{ health.ndc_code }}<br />
-        <span class="a-text-bold">Name : </span>{{ health.drug_name }}<br />
-        <span class="a-text-bold">Company : </span>{{ health.drug_company
-        }}<br />
-        <span class="a-text-bold">PROC Code : </span>{{ health.proc_code
-        }}<br />
-        <span class="a-text-bold">Description : </span>{{ health.desc }}
+        <div>
+          <span class="a-text-bold">NDC Code : </span>{{ health.ndc_code }}
+        </div>
+
+        <div>
+          <span class="a-text-bold">Name : </span>{{ health.drug_name }}
+        </div>
+
+        <div>
+          <span class="a-text-bold">Company : </span>{{ health.drug_company }}
+        </div>
+
+        <div>
+          <span class="a-text-bold">PROC Code : </span>{{ health.proc_code }}
+        </div>
+
+        <div>
+          <span class="a-text-bold">Description : </span>{{ health.desc }}
+        </div>
       </div>
     </template>
   </detail-section>
@@ -79,12 +110,18 @@
   >
     <template v-slot:default>
       <div>
-        <span class="a-text-bold">Credit Card : </span>{{ bank.credit_card
-        }}<br />
-        <span class="a-text-bold">Credit Card Type : </span
-        >{{ bank.credit_card_type }}<br />
-        <span class="a-text-bold">IBAN : </span>{{ bank.iban }}<br />
-        <span class="a-text-bold">Money : </span>{{ bank.money }}<br />
+        <div>
+          <span class="a-text-bold">Credit Card : </span>{{ bank.credit_card }}
+        </div>
+
+        <div>
+          <span class="a-text-bold">Credit Card Type : </span
+          >{{ bank.credit_card_type }}
+        </div>
+
+        <div><span class="a-text-bold">IBAN : </span>{{ bank.iban }}</div>
+
+        <div><span class="a-text-bold">Money : </span>{{ bank.money }}</div>
       </div>
     </template>
   </detail-section>
@@ -214,5 +251,12 @@ export default {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd;
+}
+
+.actions-container {
+  margin-top: 25px;
+}
+
+.checkbox-option {
 }
 </style>
